@@ -1,0 +1,393 @@
+
+/* =========================================
+   CONVERSOR MP4 PARA MP3
+   Design moderno e responsivo
+========================================= */
+
+:root {
+  --fundo: #080b16;
+  --cartao: #111729;
+  --roxo: #8b5cf6;
+  --azul: #38bdf8;
+  --texto: #f8fafc;
+  --texto-secundario: #94a3b8;
+  --borda: rgba(148, 163, 184, 0.15);
+}
+
+/* RESET */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 25px;
+
+  font-family: 'DM Sans', sans-serif;
+  color: var(--texto);
+
+  background:
+    radial-gradient(circle at 20% 20%, #31205c 0, transparent 35%),
+    radial-gradient(circle at 80% 80%, #102e50 0, transparent 35%),
+    var(--fundo);
+}
+
+/* CARTÃO PRINCIPAL */
+
+.cartao {
+  position: relative;
+  width: 100%;
+  max-width: 490px;
+  padding: 45px 38px;
+
+  text-align: center;
+
+  background: rgba(17, 23, 41, 0.88);
+  border: 1px solid var(--borda);
+  border-radius: 28px;
+
+  backdrop-filter: blur(20px);
+
+  box-shadow:
+    0 25px 80px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+  animation: aparecer 0.7s ease;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* TÍTULO */
+
+h1 {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(27px, 5vw, 36px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  line-height: 1.15;
+
+  background: linear-gradient(100deg, #ffffff, #a78bfa, #38bdf8);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitulo {
+  margin-top: 13px;
+  margin-bottom: 32px;
+
+  color: var(--texto-secundario);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* ÁREA DE UPLOAD */
+
+.area-disco {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  min-height: 245px;
+  padding: 25px 15px;
+
+  border: 2px dashed rgba(139, 92, 246, 0.4);
+  border-radius: 20px;
+
+  background: rgba(139, 92, 246, 0.045);
+
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.area-disco:hover,
+.area-disco:focus-within,
+.area-disco.dragover,
+.area-disco.arrastando {
+  border-color: var(--azul);
+  background: rgba(56, 189, 248, 0.08);
+  transform: translateY(-3px);
+  box-shadow: 0 0 30px rgba(56, 189, 248, 0.08);
+}
+
+/* INPUT DE ARQUIVO */
+
+#arquivo {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  overflow: hidden;
+}
+
+/* DISCO DE VINIL */
+
+.disco-caixa {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 135px;
+  height: 135px;
+  margin-bottom: 23px;
+
+  border-radius: 50%;
+
+  background: radial-gradient(circle, #35205f, #17152b);
+  box-shadow: 0 0 35px rgba(139, 92, 246, 0.2);
+}
+
+.disco {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 110px;
+  height: 110px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(circle, #181323 0 9%, transparent 10%),
+    repeating-radial-gradient(
+      circle,
+      #262238 0,
+      #262238 2px,
+      #11101b 3px,
+      #11101b 5px
+    );
+
+  border: 3px solid #39334e;
+
+  box-shadow:
+    0 0 0 5px rgba(139, 92, 246, 0.08),
+    0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.disco::before {
+  content: "";
+  position: absolute;
+
+  width: 35px;
+  height: 35px;
+
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--roxo), var(--azul));
+
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.6);
+}
+
+.disco::after {
+  content: "";
+  position: absolute;
+
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.rotulo {
+  position: absolute;
+  z-index: 2;
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: white;
+}
+
+/* ANIMAÇÃO DO DISCO */
+
+#cartao[data-estado="convertendo"] .disco {
+  animation: girar 2s linear infinite;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* NOME DO ARQUIVO */
+
+.nome-arquivo {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+
+  color: #cbd5e1;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+#cartao[data-estado="pronto"] .nome-arquivo {
+  color: #67e8f9;
+}
+
+#cartao[data-estado="concluido"] .nome-arquivo {
+  color: #86efac;
+}
+
+/* BOTÃO DE CONVERSÃO */
+
+#botao {
+  width: 100%;
+  margin-top: 22px;
+  padding: 17px 20px;
+
+  border: none;
+  border-radius: 13px;
+
+  background: linear-gradient(110deg, #7c3aed, #4f46e5, #0284c7);
+
+  color: white;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.25);
+
+  transition: 0.3s ease;
+}
+
+#botao:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(124, 58, 237, 0.4);
+  filter: brightness(1.15);
+}
+
+#botao:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+#botao:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* MENSAGENS */
+
+#mensagem {
+  min-height: 25px;
+  margin-top: 20px;
+
+  color: var(--texto-secundario);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+#cartao[data-estado="concluido"] #mensagem {
+  color: #4ade80;
+}
+
+/* BOTÃO DE DOWNLOAD */
+
+.botao-baixar {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 16px;
+
+  border-radius: 13px;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+
+  background: rgba(34, 197, 94, 0.12);
+
+  color: #86efac;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+
+  transition: 0.3s ease;
+}
+
+.botao-baixar:hover {
+  background: rgba(34, 197, 94, 0.22);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(34, 197, 94, 0.1);
+}
+
+.botao-baixar[hidden] {
+  display: none;
+}
+
+/* RODAPÉ */
+
+.rodape {
+  margin-top: 32px;
+  padding-top: 20px;
+
+  border-top: 1px solid var(--borda);
+
+  color: #64748b;
+  font-size: 11px;
+  letter-spacing: 0.3px;
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 480px) {
+  body {
+    padding: 15px;
+  }
+
+  .cartao {
+    padding: 35px 22px;
+    border-radius: 22px;
+  }
+
+  .area-disco {
+    min-height: 220px;
+  }
+
+  .disco-caixa {
+    width: 120px;
+    height: 120px;
+  }
+
+  .disco {
+    width: 98px;
+    height: 98px;
+  }
+}
+
+/* ACESSIBILIDADE */
+
+button:focus-visible,
+a:focus-visible,
+.area-disco:focus-within {
+  outline: 2px solid var(--azul);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

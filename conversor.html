@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Conversor de MP4 para MP3</title>
+
+  <!-- Fontes do Google (precisam de internet; sem elas, o navegador usa fontes padrão) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="estilo.css">
+</head>
+
+<body>
+  <!-- data-estado muda conforme a etapa: vazio, pronto, convertendo, concluido -->
+  <main class="cartao" id="cartao" data-estado="vazio">
+    <h1>Converta MP4 em MP3</h1>
+    <p class="subtitulo">Solte o vídeo no disco e baixe o áudio em instantes.</p>
+
+    <form id="formulario-converter">
+      <!-- O disco inteiro é clicável e aceita arrastar e soltar -->
+      <label class="area-disco" id="area-disco" for="arquivo">
+        <input type="file" id="arquivo" accept=".mp4,video/mp4" required>
+
+        <span class="disco-caixa" aria-hidden="true">
+          <span class="disco">
+            <span class="rotulo" id="rotulo">MP4</span>
+          </span>
+        </span>
+
+        <span class="nome-arquivo" id="nome-arquivo">Arraste um vídeo ou clique para escolher</span>
+      </label>
+
+      <button type="submit" id="botao">Converter para MP3</button>
+    </form>
+
+    <p id="mensagem" role="status"></p>
+    <a id="baixar" class="botao-baixar" href="#" hidden>Baixar MP3</a>
+
+    <p class="rodape">Feito com Java, Spring Boot e FFmpeg.</p>
+  </main>
+
+  <script src="converter.js"></script>
+</body>
+</html>
